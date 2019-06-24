@@ -6,7 +6,7 @@ namespace BotCore
     {
         private static UnityContainer _container;
 
-        public static UnityContainer UnityContainer
+        public static UnityContainer Container
         {
             get
             {
