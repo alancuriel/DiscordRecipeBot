@@ -24,6 +24,6 @@ namespace BotCore
             //_container.RegisterType<interface, implemtation>();
             //_container.RegisterSingleton<interface, implemtation>();
         }
-
+        
     }
 }
