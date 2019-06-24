@@ -3,6 +3,7 @@ using Unity;
 namespace BotCore
 {
     public static class Unity
+    // stuff for managing the relations between interfaces and classes
     {
         private static UnityContainer _container;
 
