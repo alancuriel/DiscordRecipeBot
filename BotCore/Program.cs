@@ -16,6 +16,8 @@ namespace BotCore
                 SocketConfig = SocketConfig.GetDefault()
             };
 
+            var a = Unity.Resolve<Connection>();
+
         }
     }
 }

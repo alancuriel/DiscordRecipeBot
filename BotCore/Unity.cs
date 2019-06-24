@@ -20,9 +20,14 @@ namespace BotCore
         public static void RegisterTypes()
         {
             _container = new UnityContainer();
+
+            _container.RegisterSingleton<ILogger,Logger>();
+            _container.RegisterSingleton<Discord.Connection>();
             //_container.RegisterType<interface, implemtation>();
             //_container.RegisterSingleton<interface, implemtation>();
         }
+
+        public static T Resolve<T>() => Container.Resolve<T>();
 
     }
 }
