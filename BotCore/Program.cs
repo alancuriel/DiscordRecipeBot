@@ -20,6 +20,10 @@ namespace BotCore
             {
                 Token = storage.RestoreObject<string>("Config/BotToken")
             });
+
+            await Unity.Resolve<ICommandHandler>().InitializeAsync();
+
+            await Task.Delay(-1);
         }
     }
 }

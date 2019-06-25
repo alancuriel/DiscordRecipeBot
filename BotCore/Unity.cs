@@ -30,7 +30,8 @@ namespace BotCore
             .RegisterSingleton<ILogger,Logger>()
             .RegisterFactory<DiscordSocketConfig>(i => SocketConfig.GetDefault())      
             .RegisterSingleton<DiscordSocketClient>(new InjectionConstructor(typeof(DiscordSocketConfig)))
-            .RegisterSingleton<Discord.Connection>();
+            .RegisterSingleton<Discord.Connection>()
+            .RegisterSingleton<ICommandHandler, DiscordCommandHandler>();
 
 
             //_container.RegisterType<interface, implemtation>();
