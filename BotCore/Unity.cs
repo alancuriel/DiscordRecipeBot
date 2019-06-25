@@ -1,4 +1,9 @@
+using BotCore.Discord;
+using BotCore.Storage;
+using BotCore.Storage.Implementations;
+using Discord.WebSocket;
 using Unity;
+using Unity.Injection;
 
 namespace BotCore
 {
@@ -21,8 +26,13 @@ namespace BotCore
         {
             _container = new UnityContainer();
 
-            _container.RegisterSingleton<ILogger,Logger>();
-            _container.RegisterSingleton<Discord.Connection>();
+            _container.RegisterSingleton<IDataStorage, JsonStorage>()
+            .RegisterSingleton<ILogger,Logger>()
+            .RegisterFactory<DiscordSocketConfig>(i => SocketConfig.GetDefault())      
+            .RegisterSingleton<DiscordSocketClient>(new InjectionConstructor(typeof(DiscordSocketConfig)))
+            .RegisterSingleton<Discord.Connection>();
+
+
             //_container.RegisterType<interface, implemtation>();
             //_container.RegisterSingleton<interface, implemtation>();
         }

@@ -1,4 +1,5 @@
 ﻿using BotCore.Discord.Entities;
+using Discord;
 using Discord.WebSocket;
 using System;
 using System.Collections.Generic;
@@ -9,20 +10,25 @@ namespace BotCore.Discord
 {
     public class Connection
     {
-        private DiscordSocketClient _client;
-        private DiscordLogger _logger;
+        private readonly DiscordSocketClient _client;
+        private readonly DiscordLogger _logger;
 
-        public Connection(DiscordLogger logger)
+        public Connection(DiscordLogger logger, DiscordSocketClient client)
         {
             _logger = logger;
+            _client = client;
 
+            
         }
 
         internal async Task ConnectAsync(FoodBotConfig config)
         {
-            _client = new DiscordSocketClient(config.SocketConfig);
-
             _client.Log += _logger.Log;
+
+            await _client.LoginAsync(TokenType.Bot, config.Token);
+            await _client.StartAsync();
+
+            await Task.Delay(-1);
         }
     }
 }

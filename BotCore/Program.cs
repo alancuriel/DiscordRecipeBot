@@ -1,23 +1,25 @@
 ﻿using BotCore.Discord;
 using BotCore.Discord.Entities;
+using BotCore.Storage;
 using System;
+using System.Threading.Tasks;
 
 namespace BotCore
 {
     class Program
     {
-        static void Main(string[] args)
+        static async Task Main(string[] args)
         {
+            Unity.RegisterTypes();
             Console.WriteLine("Hello World!");
 
-            var BotConfiguration = new FoodBotConfig()
+            var storage = Unity.Resolve<IDataStorage>();
+
+            var connection = Unity.Resolve<Connection>();
+            await connection.ConnectAsync(new FoodBotConfig()
             {
-                Token = "bot token",
-                SocketConfig = SocketConfig.GetDefault()
-            };
-
-            var a = Unity.Resolve<Connection>();
-
+                Token = storage.RestoreObject<string>("Config/BotToken")
+            });
         }
     }
 }
