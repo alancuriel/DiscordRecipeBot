@@ -6,7 +6,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BotCore.Discord
+namespace BotCore.Discord.Handlers
 {
     public class DiscordCommandHandler : ICommandHandler
     {
@@ -21,6 +21,7 @@ namespace BotCore.Discord
 
         public async Task InitializeAsync()
         {
+            
             _client.MessageReceived += HandleCommandAsync;
             await _commandService.AddModulesAsync(Assembly.GetEntryAssembly(), null);
         }

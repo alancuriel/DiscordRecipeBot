@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 
-namespace BotCore.Discord
+namespace BotCore.Discord.Handlers
 {
     public interface ICommandHandler
     {
