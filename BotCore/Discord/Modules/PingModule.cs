@@ -41,7 +41,7 @@ namespace BotCore.Discord.Modules
         }
 
         [Command("echo")]
-        public async Task SearchRecipe([Remainder]string message)
+        public async Task EchoAsync([Remainder]string message)
         {
             await ReplyAsync(message);
         }

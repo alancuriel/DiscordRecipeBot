@@ -1,5 +1,6 @@
 ﻿using BotCore.Discord;
 using BotCore.Discord.Entities;
+using BotCore.Discord.Handlers;
 using BotCore.Storage;
 using System;
 using System.Threading.Tasks;

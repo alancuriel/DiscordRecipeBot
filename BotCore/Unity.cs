@@ -1,4 +1,8 @@
+using BotCore.Data.Scraper;
 using BotCore.Discord;
+using BotCore.Discord.Handlers;
+using BotCore.Discord.Modules;
+using BotCore.Discord.Services;
 using BotCore.Storage;
 using BotCore.Storage.Implementations;
 using Discord.WebSocket;
@@ -31,6 +35,8 @@ namespace BotCore
             .RegisterFactory<DiscordSocketConfig>(i => SocketConfig.GetDefault())      
             .RegisterSingleton<DiscordSocketClient>(new InjectionConstructor(typeof(DiscordSocketConfig)))
             .RegisterSingleton<Discord.Connection>()
+            .RegisterSingleton<IRecipeScraper, AllRecipeScraper>()
+            .RegisterSingleton<RecipeService>()
             .RegisterSingleton<ICommandHandler, DiscordCommandHandler>();
 
 
