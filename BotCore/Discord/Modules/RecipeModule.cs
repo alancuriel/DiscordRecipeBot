@@ -26,7 +26,7 @@ namespace BotCore.Discord.Modules
             {
                 Title = recipe.Name,
                 Url = recipe.Link,
-                //ImageUrl = recipe.Img,
+                ImageUrl = recipe.Img,
                 Footer = new EmbedFooterBuilder
                 {
                     Text = $"Calories: {recipe.Calories.ToString()}"
