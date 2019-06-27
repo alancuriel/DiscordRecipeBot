@@ -12,5 +12,6 @@ namespace BotCore.Models
         public TimeSpan Time { get; set; }
         public int Calories { get; set; }
         public string Img { get; set; }
+        public string Link { get; set; }
     }
 }
