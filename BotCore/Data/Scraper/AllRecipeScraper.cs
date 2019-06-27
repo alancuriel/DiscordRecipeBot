@@ -1,5 +1,6 @@
 ﻿using BotCore.Models;
 using HtmlAgilityPack;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
@@ -87,9 +88,11 @@ namespace BotCore.Data.Scraper
 
             }
 
-
-
-
+            var recipeCalories = _html.DocumentNode.Descendants("span")
+            .Where(node => node.GetAttributeValue("class","") == "calorie-count").ToArray().First()
+            .Descendants("span").Where(node => node.GetAttributeValue("class","na") == "na").First().GetDirectInnerText();
+            
+            Int32.TryParse(recipeCalories, out int cal);
 
             return new RecipeModel()
             {
@@ -97,7 +100,7 @@ namespace BotCore.Data.Scraper
                 Ingredients = recipeIngredientsList,
                 Directions = recipeInstructionsList,
                 Link = firstRecipeLink,
-                Calories = 10,
+                Calories = cal,
                 Img = firstImageLink
                 
             };
