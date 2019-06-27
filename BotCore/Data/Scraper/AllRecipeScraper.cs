@@ -56,9 +56,19 @@ namespace BotCore.Data.Scraper
             foreach(var item in recipeIngredientsElementList)
             {
               var thing = item.GetAttributeValue("title","");
-              recipeIngredientsList.Add(thing);
+              if(thing != "" && thing != null)
+              {
+                  recipeIngredientsList.Add(thing);
+              }
+              
 
             }
+
+            var recipeImageList = _html.DocumentNode.Descendants("img")
+                .Where(node => node.GetAttributeValue("class", "")
+                .Equals("rec-photo")).ToList();
+
+            var firstImageLink = recipeImageList[0].GetAttributeValue("src", "image not found"); ;
 
             var recipeInstructionsElementList = _html.DocumentNode.Descendants("span")
                 .Where(node => node.GetAttributeValue("class", "")
@@ -70,7 +80,10 @@ namespace BotCore.Data.Scraper
             foreach(var item in recipeInstructionsElementList)
             {
               var thing = item.InnerText;
-              recipeInstructionsList.Add(thing);
+              if(thing != "" && thing != null)
+              {
+                  recipeInstructionsList.Add(thing);
+              }
 
             }
 
@@ -82,7 +95,10 @@ namespace BotCore.Data.Scraper
             {
                 Name = recipeTitle,
                 Ingredients = recipeIngredientsList,
-                Directions = recipeInstructionsList
+                Directions = recipeInstructionsList,
+                Link = firstRecipeLink,
+                Calories = 10,
+                Img = firstImageLink
                 
             };
         }

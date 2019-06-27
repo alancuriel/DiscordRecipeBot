@@ -26,17 +26,17 @@ namespace BotCore.Discord.Modules
             {
                 Title = recipe.Name,
                 Url = recipe.Link,
-                ImageUrl = recipe.Img,
+                //ImageUrl = recipe.Img,
                 Footer = new EmbedFooterBuilder
                 {
-                    Text = recipe.Calories.ToString()
+                    Text = $"Calories: {recipe.Calories.ToString()}"
                 },
                 Description = ParseIngredients(recipe.Ingredients),
                 Fields = ParseDirections(recipe.Directions)
             };
 
 
-            await ReplyAsync(recipe.Name);
+            await ReplyAsync(null, false , embed.Build());
         }
 
         private List<EmbedFieldBuilder> ParseDirections(List<string> directions)
@@ -58,7 +58,7 @@ namespace BotCore.Discord.Modules
                 dirs.Add(new EmbedFieldBuilder
                 {
                     IsInline = true,
-                    Name = "1. ",
+                    Name = $"{i+1}. ",
                     Value = directions[i]
                 });
                 
@@ -73,7 +73,7 @@ namespace BotCore.Discord.Modules
 
             foreach(var ingredient in ingredients)
             {
-                ings = $"{ings} \n{ingredients}";
+                ings = $"{ings} \n{ingredient}";
             }
 
             return ings;
