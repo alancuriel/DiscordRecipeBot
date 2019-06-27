@@ -69,7 +69,7 @@ namespace BotCore.Discord.Modules
 
         private string ParseIngredients(List<string> ingredients)
         {
-            string ings = "Ingredients";
+            string ings = "**Ingredients**";
 
             foreach(var ingredient in ingredients)
             {

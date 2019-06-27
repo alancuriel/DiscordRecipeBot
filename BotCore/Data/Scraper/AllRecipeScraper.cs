@@ -32,7 +32,7 @@ namespace BotCore.Data.Scraper
             var firstRecipeLink = recipeCardList[0].Descendants("a")
                 .Where(node => node.GetAttributeValue("class", "")
                 .Equals("fixed-recipe-card__title-link"))
-                .FirstOrDefault().GetAttributeValue("href", "link not found"); ;
+                .FirstOrDefault().GetAttributeValue("href", "link not found");
 
             await LoadHtmlAsync(firstRecipeLink);
 
