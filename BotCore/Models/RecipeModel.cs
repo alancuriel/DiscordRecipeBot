@@ -9,7 +9,7 @@ namespace BotCore.Models
         public string Name { get; set; }
         public List<string> Ingredients { get; set; }
         public List<string> Directions { get; set; }
-        public TimeSpan Time { get; set; }
+        public String Time { get; set; }
         public int Calories { get; set; } = 0;
         public string Img { get; set; }
         public string Link { get; set; }

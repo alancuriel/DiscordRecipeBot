@@ -29,7 +29,7 @@ namespace BotCore.Discord.Modules
                 ImageUrl = recipe.Img,
                 Footer = new EmbedFooterBuilder
                 {
-                    Text = $"Calories: {recipe.Calories.ToString()}"
+                    Text = $"Calories: {recipe.Calories.ToString()}  Time: {recipe.Time}"
                 },
                 Description = ParseIngredients(recipe.Ingredients),
                 Fields = ParseDirections(recipe.Directions)

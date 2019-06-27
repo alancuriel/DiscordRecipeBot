@@ -94,6 +94,11 @@ namespace BotCore.Data.Scraper
             
             Int32.TryParse(recipeCalories, out int cal);
 
+            var recipeTime = _html.DocumentNode.Descendants("span")
+            .Where(node => node.GetAttributeValue("class"," ") == "ready-in-time")
+            .ToList().First().GetDirectInnerText();
+
+
             return new RecipeModel()
             {
                 Name = recipeTitle,
@@ -101,8 +106,8 @@ namespace BotCore.Data.Scraper
                 Directions = recipeInstructionsList,
                 Link = firstRecipeLink,
                 Calories = cal,
-                Img = firstImageLink
-                
+                Img = firstImageLink,
+                Time = recipeTime
             };
         }
 
