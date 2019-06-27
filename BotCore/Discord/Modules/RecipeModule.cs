@@ -17,7 +17,7 @@ namespace BotCore.Discord.Modules
         [Command("recipe")]
         public async Task SearchRecipeAsync([Remainder] string r)
         {
-            var recipe =_recipeService.SearchForRecipe(r);
+            var recipe = await _recipeService.SearchForRecipe(r);
             
             await ReplyAsync(recipe.Name);
         }

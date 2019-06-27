@@ -3,6 +3,7 @@ using BotCore.Models;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace BotCore.Discord.Services
 {
@@ -15,9 +16,9 @@ namespace BotCore.Discord.Services
             _recipeScraper = recipeScraper;
         }
 
-        public RecipeModel SearchForRecipe(string keyword)
+        public Task<RecipeModel> SearchForRecipe(string keyword)
         {
-            return _recipeScraper.GetRecipe(keyword: keyword);
+            return  _recipeScraper.GetRecipeAsync(keyword: keyword);
         }
 
     }
