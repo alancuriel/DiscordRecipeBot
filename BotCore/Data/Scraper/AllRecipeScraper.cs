@@ -1,5 +1,6 @@
 ﻿using BotCore.Models;
 using HtmlAgilityPack;
+using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Text;
@@ -35,11 +36,54 @@ namespace BotCore.Data.Scraper
 
             await LoadHtmlAsync(firstRecipeLink);
 
+            var recipeTitleList = _html.DocumentNode.Descendants("section")
+                .Where(node => node.GetAttributeValue("class", "")
+                .Equals("recipe-summary clearfix"))
+                .ToList();
+            
+            var recipeTitle = recipeTitleList[0].Descendants("h1")
+                .Where(node => node.GetAttributeValue("id", "")
+                .Equals("recipe-main-content"))
+                .FirstOrDefault().InnerText;
+
+            var recipeIngredientsElementList = _html.DocumentNode.Descendants("label")
+                .Where(node => node.GetAttributeValue("ng-class", "")
+                .Equals("{true: 'checkList__item'}[true]"))
+                .ToList();
+
+            var recipeIngredientsList = new List<string>();
+
+            foreach(var item in recipeIngredientsElementList)
+            {
+              var thing = item.GetAttributeValue("title","");
+              recipeIngredientsList.Add(thing);
+
+            }
+
+            var recipeInstructionsElementList = _html.DocumentNode.Descendants("span")
+                .Where(node => node.GetAttributeValue("class", "")
+                .Equals("recipe-directions__list--item"))
+                .ToList();
+            
+            var recipeInstructionsList = new List<string>();
+
+            foreach(var item in recipeInstructionsElementList)
+            {
+              var thing = item.InnerText;
+              recipeInstructionsList.Add(thing);
+
+            }
+
+
+
 
 
             return new RecipeModel()
             {
-                Name = firstRecipeLink
+                Name = recipeTitle,
+                Ingredients = recipeIngredientsList,
+                Directions = recipeInstructionsList
+                
             };
         }
 
