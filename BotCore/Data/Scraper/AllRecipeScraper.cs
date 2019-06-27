@@ -67,9 +67,9 @@ namespace BotCore.Data.Scraper
 
             var recipeImageList = _html.DocumentNode.Descendants("img")
                 .Where(node => node.GetAttributeValue("class", "")
-                .Equals("rec-photo")).ToList();
+                .StartsWith("rec-photo")).ToList();
 
-            var firstImageLink = recipeImageList[0].GetAttributeValue("src", "image not found"); ;
+            var firstImageLink = recipeImageList[0]?.GetAttributeValue("src", "image not found"); ;
 
             var recipeInstructionsElementList = _html.DocumentNode.Descendants("span")
                 .Where(node => node.GetAttributeValue("class", "")
