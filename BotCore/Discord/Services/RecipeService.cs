@@ -21,5 +21,10 @@ namespace BotCore.Discord.Services
             return  _recipeScraper.GetRecipeAsync(keyword: keyword);
         }
 
+        public Task<List<RecipeLinkModel>> SearchForRecipeLinks(string keyword)
+        {
+            return _recipeScraper.GetRecipeLinks(keyword: keyword);
+        }
+
     }
 }

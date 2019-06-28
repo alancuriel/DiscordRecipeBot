@@ -20,18 +20,43 @@ namespace BotCore.Data.Scraper
             _html = html;
         }
 
-        public async Task<RecipeModel> GetRecipeAsync(string keyword)
+        public async Task<List<RecipeLinkModel>> GetRecipeLinks(string keyword)
         {
-            var searchString = $"https://www.allrecipes.com/search/results/?wt={keyword}&sort=re";
+            var searchString = GetDefaultSearchString(keyword);
             await LoadHtmlAsync(searchString);
 
 
-            var recipeCardList = _html.DocumentNode.Descendants("article")
-                .Where(node => node.GetAttributeValue("class", "")
-                .Equals("fixed-recipe-card")).ToList();
+            var recipeCartTitles = _html.DocumentNode.Descendants("a")
+                                    .Where(n => n.GetAttributeValue("class"," ") == "fixed-recipe-card__title-link").ToList();
+
+            if(recipeCartTitles.Count <= 0)
+                throw new Exception($"No recipes found with the phrase {keyword}");
+
+            var recipeLinks = recipeCartTitles.ConvertAll(node =>
+            new RecipeLinkModel
+            {
+                Url = node.GetAttributeValue("href", "not found"),
+                Name = node.Descendants("span").ToList().First().GetDirectInnerText()
+            });
+
+            return recipeLinks;
+        }
+
+        private string GetDefaultSearchString(string keyword)
+        {
+            return $"https://www.allrecipes.com/search/results/?wt={keyword}&sort=re";
+        }
+
+        public async Task<RecipeModel> GetRecipeAsync(string keyword)
+        {
+            var searchString = GetDefaultSearchString(keyword);
+            await LoadHtmlAsync(searchString);
+
+
+            var recipeCardList = GetRecipeCardList();
 
             if (recipeCardList.Count == 0)
-                throw new Exception($"No recipes with found with the phrase {keyword}");
+                throw new Exception($"No recipes found with the phrase {keyword}");
 
             var firstRecipeLink = recipeCardList[0].Descendants("a")
                 .Where(node => node.GetAttributeValue("class", "")
@@ -118,6 +143,13 @@ namespace BotCore.Data.Scraper
         {
             var htmlString = await _client.GetStringAsync(url);
             _html.LoadHtml(htmlString);
+        }
+
+        private List<HtmlNode> GetRecipeCardList()
+        {
+            return _html.DocumentNode.Descendants("article")
+                .Where(node => node.GetAttributeValue("class", "")
+                .Equals("fixed-recipe-card")).ToList();
         }
     }
 }

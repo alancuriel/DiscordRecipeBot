@@ -1,4 +1,5 @@
 ﻿using BotCore.Discord.Services;
+using BotCore.Models;
 using Discord;
 using Discord.Commands;
 using System;
@@ -18,6 +19,7 @@ namespace BotCore.Discord.Modules
         }
 
         [Command("recipe")]
+        [Alias("r")]
         public async Task SearchRecipeAsync([Remainder] string r)
         {
 
@@ -37,20 +39,64 @@ namespace BotCore.Discord.Modules
                     },
                     Description = ParseIngredients(recipe.Ingredients),
                     Fields = ParseDirections(recipe.Directions)
+                   
                 };
             }
-            catch(Exception exc)
+            catch(Exception ex)
             {
 
-                embed = new EmbedBuilder
-                {
-                    Title = "Recipe not found!",
-                    Description = $"Reason: {exc.Message}"
-                };
+                embed = CreateErrorEmbed(ex.Message);
             }
 
 
             await ReplyAsync(null, false , embed.Build());
+            
+        }
+
+        [Command("recipem")]
+        [Alias("rm")]
+        public async Task SearchMoreRecipesAsync([Remainder] string r)
+        {
+            EmbedBuilder embed;
+
+            try
+            {
+                var recipeLinks = await _recipeService.SearchForRecipeLinks(r);
+
+                embed = new EmbedBuilder
+                {
+                    Title = $"Recipe Results for {r}",
+                    Description = ParseRecipeLinks(recipeLinks)
+                };
+            }
+            catch (Exception ex)
+            {
+                embed = CreateErrorEmbed(ex.Message);
+            }
+            
+            
+            await ReplyAsync(null,false,embed.Build());
+        }
+
+        private EmbedBuilder CreateErrorEmbed(string message)
+        {
+            return new EmbedBuilder
+            {
+                Title = "Recipe not found!",
+                Description = $"Reason: {message}"
+            };
+        }
+
+        private string ParseRecipeLinks(List<RecipeLinkModel> recipeLinks)
+        {
+            string ings = "**Recipes**";
+
+            for(int i = 0; i < recipeLinks.Count && i < 5; i++)
+            {
+                ings = $"{ings} \n{i+1}. [{recipeLinks[i].Name}]({recipeLinks[i].Url})";
+            }
+
+            return ings;
         }
 
         private List<EmbedFieldBuilder> ParseDirections(List<string> directions)
@@ -92,5 +138,8 @@ namespace BotCore.Discord.Modules
 
             return ings;
         }
+
+        
+
     }
 }
