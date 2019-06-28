@@ -20,20 +20,34 @@ namespace BotCore.Discord.Modules
         [Command("recipe")]
         public async Task SearchRecipeAsync([Remainder] string r)
         {
-            var recipe = await _recipeService.SearchForRecipe(r);
 
-            var embed = new EmbedBuilder
+            EmbedBuilder embed;
+            try
             {
-                Title = recipe.Name,
-                Url = recipe.Link,
-                ImageUrl = recipe.Img,
-                Footer = new EmbedFooterBuilder
+                var recipe = await _recipeService.SearchForRecipe(r);
+
+                embed = new EmbedBuilder
                 {
-                    Text = $"Calories: {recipe.Calories.ToString()}  Time: {recipe.Time}"
-                },
-                Description = ParseIngredients(recipe.Ingredients),
-                Fields = ParseDirections(recipe.Directions)
-            };
+                    Title = recipe.Name,
+                    Url = recipe.Link,
+                    ImageUrl = recipe.Img,
+                    Footer = new EmbedFooterBuilder
+                    {
+                        Text = $"Calories: {recipe.Calories.ToString()}  Time: {recipe.Time}"
+                    },
+                    Description = ParseIngredients(recipe.Ingredients),
+                    Fields = ParseDirections(recipe.Directions)
+                };
+            }
+            catch(Exception exc)
+            {
+
+                embed = new EmbedBuilder
+                {
+                    Title = "Recipe not found!",
+                    Description = $"Reason: {exc.Message}"
+                };
+            }
 
 
             await ReplyAsync(null, false , embed.Build());

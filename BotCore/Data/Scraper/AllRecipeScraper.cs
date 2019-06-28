@@ -30,6 +30,9 @@ namespace BotCore.Data.Scraper
                 .Where(node => node.GetAttributeValue("class", "")
                 .Equals("fixed-recipe-card")).ToList();
 
+            if (recipeCardList.Count == 0)
+                throw new Exception($"No recipes with found with the phrase {keyword}");
+
             var firstRecipeLink = recipeCardList[0].Descendants("a")
                 .Where(node => node.GetAttributeValue("class", "")
                 .Equals("fixed-recipe-card__title-link"))
