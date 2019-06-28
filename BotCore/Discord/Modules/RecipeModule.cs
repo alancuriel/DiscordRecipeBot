@@ -49,8 +49,7 @@ namespace BotCore.Discord.Modules
             }
 
 
-            await ReplyAsync(null, false , embed.Build());
-            
+            await ReplyAsync(null, false , embed.Build());   
         }
 
         [Command("recipem")]
@@ -82,7 +81,7 @@ namespace BotCore.Discord.Modules
         {
             return new EmbedBuilder
             {
-                Title = "Recipe not found!",
+                Title = ":x: Recipe not found!",
                 Description = $"Reason: {message}"
             };
         }

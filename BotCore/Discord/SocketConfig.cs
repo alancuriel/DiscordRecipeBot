@@ -12,7 +12,8 @@ namespace BotCore.Discord
         {
             return new DiscordSocketConfig()
             {
-                LogLevel = LogSeverity.Verbose
+                LogLevel = LogSeverity.Verbose,
+                MessageCacheSize = 50
             };
         }
 

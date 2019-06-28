@@ -15,7 +15,7 @@ namespace BotCore.Discord
 
 
         public Task Log(LogMessage logMsg)
-        {
+            {
             _logger.Log(logMsg.Message);
             return Task.CompletedTask;
         }

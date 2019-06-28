@@ -37,7 +37,8 @@ namespace BotCore
             .RegisterSingleton<Discord.Connection>()
             .RegisterSingleton<IRecipeScraper, AllRecipeScraper>()
             .RegisterSingleton<RecipeService>()
-            .RegisterSingleton<ICommandHandler, DiscordCommandHandler>();
+            .RegisterSingleton<ICommandHandler, DiscordCommandHandler>()
+            .RegisterSingleton<IReactionHandler, DiscordReactionHandler>();
 
 
             //_container.RegisterType<interface, implemtation>();

@@ -23,6 +23,7 @@ namespace BotCore
             });
 
             await Unity.Resolve<ICommandHandler>().InitializeAsync();
+            Unity.Resolve<IReactionHandler>().Initialize();
 
             await Task.Delay(-1);
         }
