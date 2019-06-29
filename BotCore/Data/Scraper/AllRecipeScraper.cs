@@ -62,15 +62,13 @@ namespace BotCore.Data.Scraper
                 .Where(node => node.GetAttributeValue("class", "")
                 .Equals("fixed-recipe-card__title-link"))
                 .FirstOrDefault().GetAttributeValue("href", "link not found");
-                var model = await Refactor(firstRecipeLink);
+                var model = await GetRecipeFromLinkAsync(firstRecipeLink);
                 return model;
         }
 
-        public Task<RecipeModel> GetRecipeLinkAsync(String keyword) {
-            return Refactor(keyword);
-        }
+       
 
-        public async Task<RecipeModel> Refactor(string urlString)
+        public async Task<RecipeModel> GetRecipeFromLinkAsync(string urlString)
         {
             
             await LoadHtmlAsync(urlString);

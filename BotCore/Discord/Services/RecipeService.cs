@@ -26,9 +26,9 @@ namespace BotCore.Discord.Services
             return _recipeScraper.GetRecipeLinks(keyword: keyword);
         }
 
-        internal RecipeModel GetRecipeFromPage(string url)
+        public async Task<RecipeModel> GetRecipeFromPageAsync(string url)
         {
-            throw new NotImplementedException();
+            return await _recipeScraper.GetRecipeFromLinkAsync(url);
         }
     }
 }

@@ -18,6 +18,7 @@ namespace BotCore.Discord.Handlers
         public DiscordReactionHandler(DiscordSocketClient client, RecipeService recipeService)
         {
             _client = client;
+            _recipeService = recipeService;
         }
 
         public void Initialize()
@@ -40,33 +41,34 @@ namespace BotCore.Discord.Handlers
             if (!(msgEmbed.Current.Title.StartsWith("Recipe Results for")))
                 return;
 
-            var linkString = msgEmbed.Current.Description.Split();
+            var linkString = msgEmbed.Current.Description.Split("\n");
 
             RecipeModel recipe = null;
 
             switch(reaction.Emote.Name)
             {
-                case "1️⃣":
+                case "1⃣":
                     if(linkString.Length >= 2)
-                        recipe = _recipeService.GetRecipeFromPage(url: Regex.Match("User name (sales)", @"\(([^)]*)\)").Groups[1].Value);
+                        recipe = await _recipeService.GetRecipeFromPageAsync(url: Regex.Match(linkString[1], @"\(([^)]*)\)").Groups[1].Value);
                     break;
-                case "2️⃣":
+                case "2⃣":
                     if (linkString.Length >= 3)
-                        recipe = _recipeService.GetRecipeFromPage(url: Regex.Match("User name (sales)", @"\(([^)]*)\)").Groups[2].Value);
+                        recipe = await _recipeService.GetRecipeFromPageAsync(url: Regex.Match(linkString[2], @"\(([^)]*)\)").Groups[1].Value);
                     break;
-                case "3️⃣":
+                case "3⃣":
                     if (linkString.Length >= 4)
-                        recipe = _recipeService.GetRecipeFromPage(url: Regex.Match("User name (sales)", @"\(([^)]*)\)").Groups[3].Value);
+                        recipe = await _recipeService.GetRecipeFromPageAsync(url: Regex.Match(linkString[3], @"\(([^)]*)\)").Groups[1].Value);
                     break;
-                case "4️⃣":
+                case "4⃣":
                     if (linkString.Length >= 5)
-                        recipe = _recipeService.GetRecipeFromPage(url: Regex.Match("User name (sales)", @"\(([^)]*)\)").Groups[4].Value);
+                        recipe = await _recipeService.GetRecipeFromPageAsync(url: Regex.Match(linkString[4], @"\(([^)]*)\)").Groups[1].Value);
                     break;
-                case "5️⃣":
+                case "5⃣":
                     if (linkString.Length >= 6)
-                        recipe = _recipeService.GetRecipeFromPage(url: Regex.Match("User name (sales)", @"\(([^)]*)\)").Groups[5].Value);
+                        recipe = await _recipeService.GetRecipeFromPageAsync(url: Regex.Match(linkString[5], @"\(([^)]*)\)").Groups[1].Value);
                     break;
-                    
+                default:
+                    return;
             }
 
             if (recipe == null)

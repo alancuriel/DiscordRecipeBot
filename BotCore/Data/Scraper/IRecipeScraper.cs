@@ -7,5 +7,6 @@ namespace BotCore.Data.Scraper
     {
         Task<RecipeModel> GetRecipeAsync(string keyword);
         Task<System.Collections.Generic.List<RecipeLinkModel>> GetRecipeLinks(string keyword);
+        Task<RecipeModel> GetRecipeFromLinkAsync(string urlString);
     }
 }
