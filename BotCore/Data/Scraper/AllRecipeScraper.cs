@@ -130,10 +130,20 @@ namespace BotCore.Data.Scraper
             
             Int32.TryParse(recipeCalories, out int cal);
 
-            var recipeTime = _html.DocumentNode.Descendants("span")
-            .Where(node => node.GetAttributeValue("class"," ") == "ready-in-time")
-            .ToList().First().GetDirectInnerText();
+            string recipeTime = null;
+            try
+            {
+                recipeTime = _html?.DocumentNode?.Descendants("span")
+                   ?.Where(node => node?.GetAttributeValue("class", " ") == "ready-in-time")?.ToList()?.First()?.GetDirectInnerText();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
 
+               recipeTime = "not Found";
+            }
+
+            
 
             return new RecipeModel()
             {

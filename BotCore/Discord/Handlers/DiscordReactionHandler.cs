@@ -33,6 +33,9 @@ namespace BotCore.Discord.Handlers
             if (!(message != null && message.Author.Id == _client.CurrentUser.Id))
                 return;
 
+            if (reaction.User.Value.IsBot)
+                return;
+
             var msgEmbed = message.Embeds.GetEnumerator();
             msgEmbed.MoveNext();
 

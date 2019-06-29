@@ -4,6 +4,7 @@ using Discord;
 using Discord.Commands;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace BotCore.Discord.Modules
@@ -52,20 +53,22 @@ namespace BotCore.Discord.Modules
             await ReplyAsync(null, false , embed.Build());   
         }
 
-        [Command("recipem")]
-        [Alias("rm")]
+        [Command("top")]
+        [Alias("tr")]
         public async Task SearchMoreRecipesAsync([Remainder] string r)
         {
             EmbedBuilder embed;
-
+            string str = null;
             try
             {
                 var recipeLinks = await _recipeService.SearchForRecipeLinks(r);
 
+                str = ParseRecipeLinks(recipeLinks);
+
                 embed = new EmbedBuilder
                 {
                     Title = $"Recipe Results for {r}",
-                    Description = ParseRecipeLinks(recipeLinks)
+                    Description = str
                 };
             }
             catch (Exception ex)
@@ -74,7 +77,33 @@ namespace BotCore.Discord.Modules
             }
             
             
-            await ReplyAsync(null,false,embed.Build());
+            var response  = await ReplyAsync(null,false,embed.Build());
+
+            var occr = str.ToCharArray().Count(c => c == '\n');
+
+            for(int i = 0; i < occr+1; i++)
+            {
+                switch(i)
+                {
+                    case (1):
+                       await response.AddReactionAsync(new Emoji("1⃣"));
+                        break;
+                    case (2):
+                        await response.AddReactionAsync(new Emoji("2⃣"));
+                        break;
+                    case (3):
+                        await response.AddReactionAsync(new Emoji("3⃣"));
+                        break;
+                    case (4):
+                        await response.AddReactionAsync(new Emoji("4⃣"));
+                        break;
+                    case (5):
+                        await response.AddReactionAsync(new Emoji("5⃣"));
+                        break;
+                    default:
+                        break;
+                }
+            }
         }
 
         private EmbedBuilder CreateErrorEmbed(string message)
