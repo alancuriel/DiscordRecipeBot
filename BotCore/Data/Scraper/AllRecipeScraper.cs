@@ -47,9 +47,9 @@ namespace BotCore.Data.Scraper
             return $"https://www.allrecipes.com/search/results/?wt={keyword}&sort=re";
         }
 
-        public async Task<RecipeModel> GetRecipeAsync(string keyword)
-        {
+        public async Task<RecipeModel> GetRecipeAsync(String keyword) {
             var searchString = GetDefaultSearchString(keyword);
+
             await LoadHtmlAsync(searchString);
 
 
@@ -62,8 +62,18 @@ namespace BotCore.Data.Scraper
                 .Where(node => node.GetAttributeValue("class", "")
                 .Equals("fixed-recipe-card__title-link"))
                 .FirstOrDefault().GetAttributeValue("href", "link not found");
+                var model = await Refactor(firstRecipeLink);
+                return model;
+        }
 
-            await LoadHtmlAsync(firstRecipeLink);
+        public Task<RecipeModel> GetRecipeLinkAsync(String keyword) {
+            return Refactor(keyword);
+        }
+
+        public async Task<RecipeModel> Refactor(string urlString)
+        {
+            
+            await LoadHtmlAsync(urlString);
 
             var recipeTitleList = _html.DocumentNode.Descendants("section")
                 .Where(node => node.GetAttributeValue("class", "")
@@ -132,7 +142,7 @@ namespace BotCore.Data.Scraper
                 Name = recipeTitle,
                 Ingredients = recipeIngredientsList,
                 Directions = recipeInstructionsList,
-                Link = firstRecipeLink,
+                Link = urlString,
                 Calories = cal,
                 Img = firstImageLink,
                 Time = recipeTime
