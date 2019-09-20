@@ -1,11 +1,11 @@
-# Necrofoodicon - Discord Hack Week
+# Foodify - Discord Hack Week
 
 ![alt text](https://cdn-images-1.medium.com/max/2600/1*lh6NS8hx0pu5mlZeSqnu5w.jpeg)
 
-Recipe Necrofoodicon is a discord bot that can help you find great recipes for whatever you are looking for.
+Recipe Foodify is a discord bot that can help you find great recipes for whatever you are looking for.
 
 ----
-Program utilizes Dependancy injection to manage libraries and allow for future testing. Recipe information was scraped from Allrecipes.com and displayed through Discord .Net embeds.
+Program utilizes Dependency injection to manage libraries and allow for future testing. Recipe information was scraped from Allrecipes.com and displayed through Discord .Net embeds.
 
 ## Configuration
 
