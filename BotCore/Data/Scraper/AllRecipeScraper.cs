@@ -140,6 +140,7 @@ namespace BotCore.Data.Scraper
             {
                 Console.WriteLine(ex.Message);
 
+
                recipeTime = "not Found";
             }
 
